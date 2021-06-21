@@ -98,7 +98,7 @@ df$AccessM <- rowMeans(df[,71:75], na.rm = T)
 df$ProductivityM <- rowMeans(df[,76:92], na.rm = T)
 
 #Cyberloafing as a whole
-df$CyberM <- rowMeans(df[,17:38], na.rm = T)
+df$CyberM <- rowMeans(df[,55:92], na.rm = T)
 ```
 
 ```{r}
