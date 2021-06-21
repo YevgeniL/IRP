@@ -11,14 +11,20 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 dataframe <- read.csv("IRPdata.csv")[-c(2, 71),18:71]
+df <- dataframe[dataframe$Q1 == "I Consent",]
+df <- df[df$Q1.5 == "Yes, I do",]
+df <- df[df$Q3 != "Other",]
 ```
 
 ```{r}
-df <- dataframe[dataframe$Q1.5 == "Yes, I do",]
-table(df$Q2)
+# Dummy'ing the whole lot
+
+## Q2
 df$Q2[df$Q2 == "Female"] <- 0
 df$Q2[df$Q2 == "Male"] <- 1
 df$Q2[df$Q2 == "Non-binary / third gender"] <- 2
 df$Q2[df$Q2 == "Prefer not to say"] <- 3
+
+
 ```
 
