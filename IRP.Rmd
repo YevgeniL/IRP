@@ -24,26 +24,72 @@ df <- df %>% mutate_all(na_if,"")
 # Dummy'ing the whole lot
 
 ## Q2
-df$Q2[df$Q2 == "Female"] <- 0
-df$Q2[df$Q2 == "Male"] <- 1
-df$Q2[df$Q2 == "Non-binary / third gender"] <- 2
-df$Q2[df$Q2 == "Prefer not to say"] <- 3
+df$Q2[df$Q2 == "Female"]                     <- 0
+df$Q2[df$Q2 == "Male"]                       <- 1
+df$Q2[df$Q2 == "Non-binary / third gender"]  <- 2
+df$Q2[df$Q2 == "Prefer not to say"]          <- 3
 
 
-n <- c("Strongly Disagree" = 1, 
-       "Disagree" = 2, 
-       "Somewhat disagree" = 3, 
-       "Neither agree nor disagree" = 4, 
-       "Somewhat agree" = 5, 
-       "Agree" = 6, 
-       "Strongly agree" = 7)
+n <- c("Strongly Disagree"                   = 1, 
+       "Disagree"                            = 2, 
+       "Somewhat disagree"                   = 3, 
+       "Neither agree nor disagree"          = 4, 
+       "Somewhat agree"                      = 5, 
+       "Agree"                               = 6, 
+       "Strongly agree"                      = 7)
 
 df$Cyberloafing_1D <- revalue(df$Cyberloafing_1, n)
+df$Cyberloafing_2D <- revalue(df$Cyberloafing_2, n)
+df$Cyberloafing_3D <- revalue(df$Cyberloafing_3, n)
+df$Cyberloafing_4D <- revalue(df$Cyberloafing_4, n)
+df$Cyberloafing_5D <- revalue(df$Cyberloafing_5, n)
+df$Cyberloafing_6D <- revalue(df$Cyberloafing_6, n)
+df$Cyberloafing_7D <- revalue(df$Cyberloafing_7, n)
+df$Cyberloafing_8D <- revalue(df$Cyberloafing_8, n)
+df$Cyberloafing_9D <- revalue(df$Cyberloafing_9, n)
 
+df$Shopping_1D <- revalue(df$Shopping_1, n)
+df$Shopping_2D <- revalue(df$Shopping_2, n)
+df$Shopping_3D <- revalue(df$Shopping_3, n)
+df$Shopping_4D <- revalue(df$Shopping_4, n)
+df$Shopping_5D <- revalue(df$Shopping_5, n)
+df$Shopping_6D <- revalue(df$Shopping_6, n)
+df$Shopping_7D <- revalue(df$Shopping_7, n)
+df$Shopping_8D <- revalue(df$Shopping_8, n)
 
-table(df$Cyberloafing_1)
-table(df$Cyberloafing_1D)
+df$Access.Online.Conten_1D <- revalue(df$Access.Online.Conten_1, n)
+df$Access.Online.Conten_2D <- revalue(df$Access.Online.Conten_2, n)
+df$Access.Online.Conten_3D <- revalue(df$Access.Online.Conten_3, n)
+df$Access.Online.Conten_4D <- revalue(df$Access.Online.Conten_4, n)
+df$Access.Online.Conten_5D <- revalue(df$Access.Online.Conten_5, n)
+
+m <- c("Never"         = 1,
+       "Rarely"        = 2,
+       "Sometimes"     = 3,
+       "Often"         = 4,
+       "Almost Always" = 5)
+
+df$Productivity_1D <- revalue(df$Productivity_1, m)
+df$Productivity_2D <- revalue(df$Productivity_2, m)
+df$Productivity_3D <- revalue(df$Productivity_3, m)
+df$Productivity_4D <- revalue(df$Productivity_4, m)
+df$Productivity_5D <- revalue(df$Productivity_5, m)
+df$Productivity_6D <- revalue(df$Productivity_6, m)
+df$Productivity_7D <- revalue(df$Productivity_7, m)
+df$Productivity_8D <- revalue(df$Productivity_8, m)
+df$Productivity_9D <- revalue(df$Productivity_9, m)
+df$Productivity_10D <- revalue(df$Productivity_10, m)
+df$Productivity_11D <- revalue(df$Productivity_11, m)
+df$Productivity_12D <- revalue(df$Productivity_12, m)
+df$Productivity_13D <- revalue(df$Productivity_13, m)
+df$Productivity_14D <- revalue(df$Productivity_14, m)
+df$Productivity_15D <- revalue(df$Productivity_15, m)
+df$Productivity_16D <- revalue(df$Productivity_16, m)
+df$Productivity_17D <- revalue(df$Productivity_17, m)
+df$Productivity_18D <- revalue(df$Productivity_18, m)
+df$Productivity_19D <- revalue(df$Productivity_19, m)
 ```
+
 ```{r}
 #Establish row means of each cyberloafing variable
 df$SharingM <- rowMeans(df[,17:25], na.rm = T)
