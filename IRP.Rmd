@@ -16,6 +16,7 @@ df <- df[df$Q1.5 == "Yes, I do",]
 df <- df[df$Q3 != "Other",]
 df <- cbind(ID = 1:71, df)
 df[df$ID==34, "Shopping_5"] <- "Somewhat disagree"
+df <- df[df$Shopping_5 == "Somewhat disagree",]
 df <- df %>% mutate_all(na_if,"")
 ```
 
