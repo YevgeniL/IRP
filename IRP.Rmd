@@ -92,10 +92,10 @@ df$Productivity_19D <- revalue(df$Productivity_19, m)
 
 ```{r}
 #Establish row means of each cyberloafing variable
-df$SharingM <- rowMeans(df[,17:25], na.rm = T)
-df$ShoppingM <- rowMeans(df[,26:33], na.rm = T)
-df$AccessM <- rowMeans(df[,34:38], na.rm = T)
-df$ProductivityM <- rowMeans(df[,39:55], na.rm = T)
+df$SharingM <- rowMeans(df[,55:63], na.rm = T)
+df$ShoppingM <- rowMeans(df[,64:70], na.rm = T)
+df$AccessM <- rowMeans(df[,71:75], na.rm = T)
+df$ProductivityM <- rowMeans(df[,76:92], na.rm = T)
 
 #Cyberloafing as a whole
 df$CyberM <- rowMeans(df[,17:38], na.rm = T)
