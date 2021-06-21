@@ -29,16 +29,19 @@ df$Q2[df$Q2 == "Non-binary / third gender"] <- 2
 df$Q2[df$Q2 == "Prefer not to say"] <- 3
 
 
-library(dplyr)
-df %>% 
-  mutate_at(vars(starts_with("Cyberloafing")), 
-            funs("rc" = recode(.,
-                               "Strongly Disagree"           = 1,
-                               "Somewhat disagree"           = 2,
-                               "Neither agree nor disagree"  = 3,
-                               "Somewhat agree"              = 4,
-                               "Agree"                       = 5)))
+n <- c("Strongly Disagree" = 1, 
+       "Disagree" = 2, 
+       "Somewhat disagree" = 3, 
+       "Neither agree nor disagree" = 4, 
+       "Somewhat agree" = 5, 
+       "Agree" = 6, 
+       "Strongly agree" = 7)
+
+df$Cyberloafing_1D <- revalue(df$Cyberloafing_1, n)
+
+
 table(df$Cyberloafing_1)
+table(df$Cyberloafing_1D)
 ```
 ```{r}
 #Establish row means of each cyberloafing variable
