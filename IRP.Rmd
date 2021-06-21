@@ -1,11 +1,6 @@
 ---
-<<<<<<< HEAD
 title: "Integrative Research Project"
 author: "Team 57"
-=======
-title: "IRP"
-author: "Yevgeni Laheij"
->>>>>>> 93e6df0e41718518c7614dda075fe95724a7f3ef
 date: "21-6-2021"
 output: pdf_document
 ---
@@ -15,6 +10,15 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-df <- read.csv("IRPdata.csv")
+dataframe <- read.csv("IRPdata.csv")[-c(2, 71),18:71]
+```
+
+```{r}
+df <- dataframe[dataframe$Q1.5 == "Yes, I do",]
+table(df$Q2)
+df$Q2[df$Q2 == "Female"] <- 0
+df$Q2[df$Q2 == "Male"] <- 1
+df$Q2[df$Q2 == "Non-binary / third gender"] <- 2
+df$Q2[df$Q2 == "Prefer not to say"] <- 3
 ```
 
