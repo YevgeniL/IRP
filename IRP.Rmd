@@ -9,6 +9,8 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 library(plyr)
 library(dplyr)
+library(ggplot2)
+library(reshape2)
 ```
 
 ```{r}
@@ -26,11 +28,11 @@ df <- df[,-c(30)]
 ```{r}
 # Dummy'ing the whole lot
 
-## Q2
+# Q2
 df$Q2[df$Q2 == "Female"]                     <- 0
 df$Q2[df$Q2 == "Male"]                       <- 1
-df$Q2[df$Q2 == "Non-binary / third gender"]  <- 2
-df$Q2[df$Q2 == "Prefer not to say"]          <- 3
+df$Q2[df$Q2 == "Non-binary / third gender"]  <- 0
+df$Q2[df$Q2 == "Prefer not to say"]          <- 0
 
 
 n <- c("Strongly Disagree"                   = 1, 
@@ -88,6 +90,15 @@ df$Productivity_14D <- as.numeric(revalue(df$Productivity_14, m))
 df$Productivity_15D <- as.numeric(revalue(df$Productivity_15, m))
 df$Productivity_16D <- as.numeric(revalue(df$Productivity_16, m))
 df$Productivity_17D <- as.numeric(revalue(df$Productivity_17, m))
+
+o <- c("Trade School" = 1,
+       "High School Graduate" = 2,
+       "Bachelors Degree" = 3,
+       "Masters Degree" = 4,
+       "Ph.D. or higher" = 5,
+       "Other" = 1)
+
+df$Q4D <- as.numeric(revalue(df$Q4, o))
 ```
 
 ```{r}
@@ -103,6 +114,80 @@ df$CyberM <- rowMeans(df[,55:75], na.rm = T)
 
 ```{r}
 #Regression
-lm1 <- lm(df$ProductivityM ~ CyberM + Q3)
-lm2 <- lm(df$ProductivityM ~ CyberM + Q3 CyberM * Q3)
+lm1 <- lm(ProductivityM ~ Q2 + Q4D, df)
+summary(lm1)
+lm2 <- lm(ProductivityM ~ CyberM, df)
+summary(lm2)
+df$Q4 <- relevel(factor(df$Q4), ref = "Ph.D. or higher")
+lm3 <- lm(ProductivityM ~ Q2 * CyberM + Q3 * CyberM + Q4D * CyberM, df)
+summary(lm3)
+
+df$Q2 <- relevel(factor(df$Q2), ref = "2")
+summary(lm(ProductivityM ~ Q8 + SharingM + ShoppingM + AccessM, data = df))
+
+dff <- df[df$Q3 == "1960-1983" | df$Q3 == "1997+",]
+dff2 <- df[df$Q3 == "1984-1996" | df$Q3 == "1997+",]
+dff3 <- df[df$Q3 == "1984-1996" | df$Q3 == "1960-1983",]
+
+t.test(dff$ProductivityM ~ dff$Q3)
+t.test(dff2$ProductivityM ~ dff2$Q3)
+t.test(dff3$ProductivityM ~ dff3$Q3)
+
+t.test(dff$CyberM ~ dff$Q3)
+t.test(dff2$CyberM ~ dff2$Q3)
+t.test(dff3$CyberM ~ dff3$Q3)
+
+mean(df$CyberM)
+sd(df$CyberM)
+mean(df$ProductivityM)
+sd(df$ProductivityM)
+
+df$Q3D_AGE[df$Q3 == "1960-1983"] <- 50
+df$Q3D_AGE[df$Q3 == "1984-1996"] <- 31
+df$Q3D_AGE[df$Q3 == "1997+"] <- 20
+
+df$Q3D[df$Q3 == "1960-1983"] <- 0
+df$Q3D[df$Q3 == "1984-1996"] <- 1
+df$Q3D[df$Q3 == "1997+"] <- 2
+
+cor(df$Q3D_AGE, df$ProductivityM)
+cor(df$CyberM, df$ProductivityM)
+cor(df$Q4D, df$CyberM)
+cor(df$Q4D, df$ProductivityM)
+cor(as.numeric(df$Q2), df$ProductivityM)
+cor(as.numeric(df$Q2), df$CyberM)
+cor(df$Q4D, as.numeric(df$Q2))
+cor(df$Q3D, df$ProductivityM)
+cor(df$Q3D, df$CyberM)
+cor(df$Q4D, df$Q3D)
+cor(df$Q3D, as.numeric(df$Q2))
+
+############################
+tapply(df$ProductivityM, df$Q3, mean)
+tapply(df$ProductivityM, df$Q3, sd)
+
+tapply(df$CyberM, df$Q3, mean)
+tapply(df$CyberM, df$Q3, sd)
+
+tapply(df$CyberM, df$Q3, mean)
+tapply(df$CyberM, df$Q3, sd)
 ```
+
+```{r}
+cor <- round(cor(df[94:97], use = "pairwise.complete.obs"), 2)
+cormat <- melt(cor)
+ggplot(cormat, aes(x = Var1, y = Var2, fill = value)) + geom_tile() + geom_text(aes(Var1, Var2, label = value), color = "white")
+```
+
+```{r}
+library(psych)
+alpha(df[,55:63])
+alpha(df[,64:70])
+alpha(df[,71:75])
+alpha(df[,76:92])
+```
+
+
+
+
+
